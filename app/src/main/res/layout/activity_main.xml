@@ -18,8 +18,7 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.318"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ventureandexcelsiors" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <ImageView
         android:id="@+id/ImageTwo"
@@ -31,8 +30,7 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.684"
-        app:srcCompat="@drawable/odysseycriticallydamaged" />
+        app:layout_constraintHorizontal_bias="0.684"/>
 
 
 <!--    <VideoView-->

@@ -1,5 +1,6 @@
 package com.example.multivideodisplayapp
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -25,33 +26,33 @@ class MainActivity :  AppCompatActivity() {
 
 
 
-    override fun onCreate(savedInstanceState: Bundle?){
+    lateinit var mediaControl: MediaController
+    lateinit var mediaControl2: MediaController
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var ImageOne: ImageView = findViewById(R.id.ImageOne)
-        var ImageTwo: ImageView = findViewById(R.id.ImageTwo)
-        ImageViewModel().InitialiseImage("ImageOne", "Image", ImageOne)
-        ImageViewModel().InitialiseImage("ImageTwo", "Image", ImageTwo)
-
-
-
 //        var ImageOne: ImageView = findViewById(R.id.ImageOne)
-//        ImageOne.setImageResource(R.drawable.ventureandexcelsiors)
-//
 //        var ImageTwo: ImageView = findViewById(R.id.ImageTwo)
-//        ImageTwo.setImageResource(R.drawable.odysseycriticallydamaged)
+//        ImageViewModel().InitialiseImage("ImageOne", "Image", ImageOne)
+//        ImageViewModel().InitialiseImage("ImageTwo", "Image", ImageTwo)
+
+
+        var simpleVideoView: VideoView = findViewById(R.id.simpleVideoView)
+        var simpleVideoView2: VideoView = findViewById(R.id.simpleVideoView2)
+
+        if (!::mediaControl.isInitialized) {
+            mediaControl = MediaController(this)
+            mediaControl.setAnchorView(simpleVideoView)
+        }
+        if (!::mediaControl2.isInitialized) {
+            mediaControl2 = MediaController(this)
+            mediaControl2.setAnchorView(simpleVideoView2)
+        }
+        VideoViewModel().InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl)
+        VideoViewModel().InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl2)
+
+
     }
-//    fun InitialiseImage(screenName: String, imageName: String){
-//        var Image: ImageView
-//
-//        if (screenName == "ImageOne"){
-//            Image = findViewById(R.id.ImageOne)
-//            Image.setImageResource(R.drawable.ventureandexcelsiors)
-//        }else{
-//            Image = findViewById(R.id.ImageTwo)
-//            Image.setImageResource(R.drawable.odysseycriticallydamaged)
-//        }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu,menu)
@@ -66,4 +67,6 @@ class MainActivity :  AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }

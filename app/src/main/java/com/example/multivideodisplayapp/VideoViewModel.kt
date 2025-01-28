@@ -5,18 +5,22 @@ import android.widget.MediaController
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 
 class VideoViewModel: AppCompatActivity() {
 
-    fun InitialiseVideo(screenName: String, videoName: String, video: VideoView, mediaControls: MediaController){
+    fun InitialiseVideo(screenName: String, videoName: String, video: VideoView, mediaControls: MediaController, context: Context){
         video.setMediaController(mediaControls)
         if (screenName == "simpleVideoView") {
             video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby))
         } else if (screenName == "simpleVideoView2"){
             video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise))
         }
+        println("C")
         video.requestFocus()
         video.start()
+
+        println("D")
         video.setOnCompletionListener {
             Toast.makeText(applicationContext, "Video completed",
                 Toast.LENGTH_LONG).show()

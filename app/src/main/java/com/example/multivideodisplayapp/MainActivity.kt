@@ -16,11 +16,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.multivideodisplayapp.ImageViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 
 class MainActivity :  AppCompatActivity() {
 
@@ -39,6 +41,8 @@ class MainActivity :  AppCompatActivity() {
 
         var simpleVideoView: VideoView = findViewById(R.id.simpleVideoView)
         var simpleVideoView2: VideoView = findViewById(R.id.simpleVideoView2)
+        println("A")
+
 
         if (!::mediaControl.isInitialized) {
             mediaControl = MediaController(this)
@@ -48,10 +52,39 @@ class MainActivity :  AppCompatActivity() {
             mediaControl2 = MediaController(this)
             mediaControl2.setAnchorView(simpleVideoView2)
         }
-        VideoViewModel().InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl)
-        VideoViewModel().InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl2)
+        println("B")
+//        VideoViewModel().InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl, applicationContext)
+//        VideoViewModel().InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl2, applicationContext)
+        InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl)
+        InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl)
+        println("E")
 
+    }
 
+    fun InitialiseVideo(screenName: String, videoName: String, video: VideoView, mediaControls: MediaController){
+        video.setMediaController(mediaControls)
+        if (screenName == "simpleVideoView") {
+            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby))
+        } else if (screenName == "simpleVideoView2"){
+            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise))
+        }
+
+        video.requestFocus()
+        video.start()
+
+        video.setOnCompletionListener {
+            Toast.makeText(applicationContext, "Video completed",
+                Toast.LENGTH_LONG).show()
+            true
+        }
+
+        // display a toast message if any
+        // error occurs while playing the video
+        video.setOnErrorListener { mp, what, extra ->
+            Toast.makeText(applicationContext, "An Error Occurred " +
+                    "While Playing Video !!!", Toast.LENGTH_LONG).show()
+            false
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

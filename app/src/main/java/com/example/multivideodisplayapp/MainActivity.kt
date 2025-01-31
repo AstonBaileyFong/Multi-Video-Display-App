@@ -53,21 +53,19 @@ class MainActivity :  AppCompatActivity() {
             mediaControl2.setAnchorView(simpleVideoView2)
         }
         println("B")
-//        VideoViewModel().InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl, applicationContext)
-//        VideoViewModel().InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl2, applicationContext)
-        InitialiseVideo("simpleVideoView", "Video", simpleVideoView, mediaControl)
-        InitialiseVideo("simpleVideoView2", "Video", simpleVideoView2, mediaControl)
+        var videoUri: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby)
+        var videoUri2: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise)
+        VideoViewModel().initialiseVideo("simpleVideoView", videoUri, simpleVideoView, mediaControl, applicationContext)
+        VideoViewModel().initialiseVideo("simpleVideoView2", videoUri2, simpleVideoView2, mediaControl2, applicationContext)
+//        initialiseVideo("simpleVideoView", videoUri, simpleVideoView, mediaControl)
+//        initialiseVideo("simpleVideoView2", videoUri2, simpleVideoView2, mediaControl)
         println("E")
 
     }
 
-    fun InitialiseVideo(screenName: String, videoName: String, video: VideoView, mediaControls: MediaController){
+    private fun initialiseVideo(screenName: String, videoUri: Uri, video: VideoView, mediaControls: MediaController){
         video.setMediaController(mediaControls)
-        if (screenName == "simpleVideoView") {
-            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby))
-        } else if (screenName == "simpleVideoView2"){
-            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise))
-        }
+        video.setVideoURI(videoUri)
 
         video.requestFocus()
         video.start()

@@ -9,30 +9,26 @@ import android.content.Context
 
 class VideoViewModel: AppCompatActivity() {
 
-    fun InitialiseVideo(screenName: String, videoName: String, video: VideoView, mediaControls: MediaController, context: Context){
+    fun initialiseVideo(screenName: String, videoUri: Uri, video: VideoView, mediaControls: MediaController, context: Context){
         video.setMediaController(mediaControls)
-        if (screenName == "simpleVideoView") {
-            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby))
-        } else if (screenName == "simpleVideoView2"){
-            video.setVideoURI(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise))
-        }
+        video.setVideoURI(videoUri)
         println("C")
         video.requestFocus()
         video.start()
 
         println("D")
-        video.setOnCompletionListener {
-            Toast.makeText(applicationContext, "Video completed",
-                Toast.LENGTH_LONG).show()
-            true
-        }
-
-        // display a toast message if any
-        // error occurs while playing the video
-        video.setOnErrorListener { mp, what, extra ->
-            Toast.makeText(applicationContext, "An Error Occurred " +
-                    "While Playing Video !!!", Toast.LENGTH_LONG).show()
-            false
-        }
+//        video.setOnCompletionListener {
+//            Toast.makeText(applicationContext, "Video completed",
+//                Toast.LENGTH_LONG).show()
+//            true
+//        }
+//
+//        // display a toast message if any
+//        // error occurs while playing the video
+//        video.setOnErrorListener { mp, what, extra ->
+//            Toast.makeText(applicationContext, "An Error Occurred " +
+//                    "While Playing Video !!!", Toast.LENGTH_LONG).show()
+//            false
+//        }
     }
 }

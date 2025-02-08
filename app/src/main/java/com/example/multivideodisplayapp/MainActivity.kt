@@ -97,8 +97,6 @@ class MainActivity :  AppCompatActivity() {
         }
         var videoOne = VideoModel(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby), mediaControl)
         var videoTwo = VideoModel(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise), mediaControl2)
-        var videoUri: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby)
-        var videoUri2: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise)
         VideoViewModel().initialiseVideo("simpleVideoView", videoOne.getVideoLocation(), simpleVideoView, videoOne.getMediaControls(), applicationContext)
         VideoViewModel().initialiseVideo("simpleVideoView2", videoTwo.getVideoLocation(), simpleVideoView2, videoTwo.getMediaControls(), applicationContext)
     }

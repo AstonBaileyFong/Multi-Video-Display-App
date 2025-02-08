@@ -28,7 +28,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.system.exitProcess
 
-
+/*
+* This class functions as the program's View within the MVVM framework.
+* It creates and manages all UI elements, encompassing the menu and VideoViews.
+* This class includes several functions, such as onCreate() for program initialisation, onSupportNavigateUp() for menu opening and onBackPressed() for menu closure.
+ */
 class MainActivity :  AppCompatActivity() {
 
 
@@ -41,28 +45,28 @@ class MainActivity :  AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        // Call findViewById on the DrawerLayout
+
         drawerLayout = findViewById(R.id.drawerLayout)
 
-        // Pass the ActionBarToggle action into the drawerListener
         actionBarToggle = ActionBarDrawerToggle(this, drawerLayout, 0, 0)
         drawerLayout.addDrawerListener(actionBarToggle)
 
-        // Display the hamburger icon to launch the drawer
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Call syncState() on the action bar so it'll automatically change to the back button when the drawer layout is open
         actionBarToggle.syncState()
 
-
-        // Call findViewById on the NavigationView
         navView = findViewById(R.id.navView)
 
-        // Call setNavigationItemSelectedListener on the NavigationView to detect when items are clicked
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+                R.id.main -> {
+//                    setContentView(R.layout.activity_main)
+                    Toast.makeText(this, "Main", Toast.LENGTH_SHORT).show()
+                    true
+                }
                 R.id.settings -> {
                     Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show()
+//                    setContentView(R.layout.activity_settings)
                     true
                 }
                 R.id.about -> {
@@ -79,16 +83,9 @@ class MainActivity :  AppCompatActivity() {
                 }
             }
         }
-//        var ImageOne: ImageView = findViewById(R.id.ImageOne)
-//        var ImageTwo: ImageView = findViewById(R.id.ImageTwo)
-//        ImageViewModel().InitialiseImage("ImageOne", "Image", ImageOne)
-//        ImageViewModel().InitialiseImage("ImageTwo", "Image", ImageTwo)
-
 
         var simpleVideoView: VideoView = findViewById(R.id.simpleVideoView)
         var simpleVideoView2: VideoView = findViewById(R.id.simpleVideoView2)
-        println("A")
-
 
         if (!::mediaControl.isInitialized) {
             mediaControl = MediaController(this)
@@ -98,38 +95,15 @@ class MainActivity :  AppCompatActivity() {
             mediaControl2 = MediaController(this)
             mediaControl2.setAnchorView(simpleVideoView2)
         }
-        println("B")
+        var videoOne = VideoModel(Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby), mediaControl)
+        var videoTwo = VideoModel(Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise), mediaControl2)
         var videoUri: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.enterprisegflyby)
         var videoUri2: Uri = Uri.parse("android.resource://" + packageName + "/" + R.raw.stargazermeetenterprise)
-        VideoViewModel().initialiseVideo("simpleVideoView", videoUri, simpleVideoView, mediaControl, applicationContext)
-        VideoViewModel().initialiseVideo("simpleVideoView2", videoUri2, simpleVideoView2, mediaControl2, applicationContext)
-//        initialiseVideo("simpleVideoView", videoUri, simpleVideoView, mediaControl)
-//        initialiseVideo("simpleVideoView2", videoUri2, simpleVideoView2, mediaControl)
-        println("E")
-
+        VideoViewModel().initialiseVideo("simpleVideoView", videoOne.getVideoLocation(), simpleVideoView, videoOne.getMediaControls(), applicationContext)
+        VideoViewModel().initialiseVideo("simpleVideoView2", videoTwo.getVideoLocation(), simpleVideoView2, videoTwo.getMediaControls(), applicationContext)
     }
 
-    private fun initialiseVideo(screenName: String, videoUri: Uri, video: VideoView, mediaControls: MediaController){
-        video.setMediaController(mediaControls)
-        video.setVideoURI(videoUri)
 
-        video.requestFocus()
-        video.start()
-
-        video.setOnCompletionListener {
-            Toast.makeText(applicationContext, "Video completed",
-                Toast.LENGTH_LONG).show()
-            true
-        }
-
-        // display a toast message if any
-        // error occurs while playing the video
-        video.setOnErrorListener { mp, what, extra ->
-            Toast.makeText(applicationContext, "An Error Occurred " +
-                    "While Playing Video !!!", Toast.LENGTH_LONG).show()
-            false
-        }
-    }
     // override the onSupportNavigateUp() function to launch the Drawer when the hamburger icon is clicked
     override fun onSupportNavigateUp(): Boolean {
         drawerLayout.openDrawer(navView)
